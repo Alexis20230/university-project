@@ -1,0 +1,46 @@
+CREATE TABLE clientes (
+  id_cliente SERIAL PRIMARY KEY,
+  nombre VARCHAR(100),
+  apellido VARCHAR(100),
+  cedula VARCHAR(15),
+  telefono VARCHAR(20),
+  email VARCHAR(100),
+  fecha_registro DATE
+);
+
+CREATE TABLE tipos_habitacion (
+  id_tipo SERIAL PRIMARY KEY,
+  nombre_tipo VARCHAR(50),
+  descripcion TEXT,
+  precio_noche DECIMAL(8,2)
+);
+
+CREATE TABLE habitaciones (
+  id_habitacion SERIAL PRIMARY KEY,
+  numero VARCHAR(10),
+  piso INT,
+  estado VARCHAR(20),
+  id_tipo INT,
+  FOREIGN KEY (id_tipo) REFERENCES tipos_habitacion(id_tipo)
+);
+
+CREATE TABLE reservas (
+  id_reserva SERIAL PRIMARY KEY,
+  fecha_reserva DATE,
+  fecha_entrada DATE,
+  fecha_salida DATE,
+  estado VARCHAR(20),
+  id_cliente INT,
+  id_habitacion INT,
+  FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
+  FOREIGN KEY (id_habitacion) REFERENCES habitaciones(id_habitacion)
+);
+
+CREATE TABLE pagos (
+  id_pago SERIAL PRIMARY KEY,
+  fecha_pago DATE,
+  monto DECIMAL(10,2),
+  metodo_pago VARCHAR(30),
+  id_reserva INT,
+  FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva)
+);
